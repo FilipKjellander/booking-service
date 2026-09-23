@@ -1,0 +1,60 @@
+package com.example.bookingservice.configuration;
+
+import com.example.bookingservice.model.Room;
+import com.example.bookingservice.repository.BookingRepository;
+import com.example.bookingservice.repository.RoomRepository;
+import com.example.bookingservice.utility.RoomSize;
+import com.example.bookingservice.utility.RoomType;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import java.util.ArrayList;
+
+@Configuration
+@RequiredArgsConstructor
+public class DataLoader {
+
+    private final RoomRepository roomRepository;
+    private final BookingRepository bookingRepository;
+
+    @Bean
+    CommandLineRunner loadData() {
+        return args -> {
+
+            if (roomRepository.count() == 0) {
+
+                roomRepository.save(
+                        new Room(null, RoomType.SINGLE , RoomSize.SMALL, new ArrayList<>())
+                );
+
+                roomRepository.save(
+                        new Room(null,RoomType.DOUBLE,  RoomSize.SMALL, new ArrayList<>())
+                );
+
+                roomRepository.save(
+                        new Room(null,RoomType.DOUBLE, RoomSize.LARGE, new ArrayList<>())
+                );
+
+                roomRepository.save(
+                        new Room(null, RoomType.SINGLE, RoomSize.SMALL, new ArrayList<>())
+                );
+            }
+            /*
+            if (customerRepository.count() == 0) {
+                customerRepository.save(Customer.builder().name("Gabriel").build());
+                customerRepository.save(Customer.builder().name("Filip").build());
+                customerRepository.save(Customer.builder().name("Simon").build());
+                customerRepository.save(Customer.builder().name("Raul").build());
+            }
+
+            if (bookingRepository.count() == 0) {
+                bookingRepository.save(Booking.builder().checkInDate(LocalDate.parse("2026-05-25"))
+                        .checkOutDate(LocalDate.parse("2026-05-26")).numberOfGuests(1)
+                        .customer(customerRepository.findCustomerByName("Gabriel"))
+                        .room(roomRepository.findAll().getFirst()).build());
+            }
+            */
+        };
+    }
+}
